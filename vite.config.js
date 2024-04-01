@@ -5,7 +5,8 @@ import vue from '@vitejs/plugin-vue'
 
 
 export default defineConfig({
-	base: '/sushi-shop-vue-project/',
+	publicPath: '/sushi-pet-project/',
+	base: '/sushi-pet-project/',
   plugins: [
     vue(),
   ],
