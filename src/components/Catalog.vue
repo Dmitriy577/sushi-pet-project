@@ -3,6 +3,10 @@
     <div class="catalog__header">
       <div class="catalog__header-container">
         <BaseHeading variant="h2">Catalog</BaseHeading>
+		<div class="catalog__search">
+			<input @input="onChangeSearchInput" class="catalog__search-input" type="text" placeholder="Search ..." name="" id="">
+			<img class="catalog__search-icon" src="../assets/search.svg" alt="">
+		</div>
         <CategoryTabs
           :items="allCategories"
           @onCategoryClick="setActiveCategory"
@@ -41,10 +45,17 @@ import FailedHttpRequest from "./FailedHttpRequest.vue";
 import Loader from "./UI/Loader.vue";
 import FadeTransition from "./UI/FadeTransition.vue";
 import BaseDivider from '@/components/UI/BaseDivider.vue'
-import { ref } from "@vue/reactivity";
+import { ref, watch } from "vue";
 import { computed } from "@vue/runtime-core";
 import { useProductStore } from "@/store/useProductStore";
 import { storeToRefs } from "pinia";
+import axios from "axios";
+
+const searchQuery = ref('');
+
+const onChangeSearchInput = (event) => {
+	searchQuery.value = event.target.value
+}
 
 const productStore = useProductStore();
 const {
@@ -67,6 +78,16 @@ const productList = computed(() => {
   return products.value.filter(
     (product) => product.category === activeCategory.value
   );
+});
+
+watch(searchQuery, async() => {
+  try {
+	const {data} = await axios.get(`https://c61db6ccb97445c0.mokky.dev/product?title=*${searchQuery.value}*`)
+	products.value = data
+	console.log(data)
+  } catch (error) {
+	console.log(error)
+  }
 });
 </script>
 
@@ -94,6 +115,26 @@ const productList = computed(() => {
 
 .catalog__loader {
   position: relative;
+}
+
+.catalog__search {
+  position: relative;
+}
+
+.catalog__search-input{
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #E4E4E4;
+  padding: 0 16px;
+}
+
+.catalog__search-icon{
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
 }
 
 @media screen and (min-width: 1024px) {

@@ -1,5 +1,5 @@
 <template>
-  <FadeTransitionGroup class="products-list">
+  <FadeTransitionGroup v-auto-animate class="products-list">
     <li
       class="products-list__item"
       v-for="product in productsToRender"

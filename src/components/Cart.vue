@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <ul class="cart__list">
+    <ul v-auto-animate class="cart__list">
       <li class="cart__grid" v-for="product in cart" :key="product.id">
         <img
           :src="product.image"

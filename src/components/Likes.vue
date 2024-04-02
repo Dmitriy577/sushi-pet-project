@@ -1,5 +1,5 @@
 <template>
-  <ul class="likes">
+  <ul v-auto-animate class="likes">
     <li
       v-for="likedProduct in likes"
       :key="likedProduct.id"
